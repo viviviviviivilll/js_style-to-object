@@ -6,19 +6,19 @@
  * @return {object}
  */
 function convertToObject(sourceString) {
-  const finalCssObject = {};
   const TEXT_SPLIT_OPERATOR = ';';
   const LINE_SPLIT_OPERATOR = ':';
-  const PROPERTY_KEY_INDEX = 0;
-  const PROPERTY_VALUE_INDEX = 1;
 
-  sourceString.split(TEXT_SPLIT_OPERATOR).map((line) => {
-    const lineParts = line.split(LINE_SPLIT_OPERATOR);
-    const keyPart = lineParts[PROPERTY_KEY_INDEX]?.trim();
-    const valuePart = lineParts[PROPERTY_VALUE_INDEX]?.trim();
+  const finalCssObject = sourceString
+    .split(TEXT_SPLIT_OPERATOR)
+    .filter((line) => line?.trim().length > 0)
+    .reduce((acc, line) => {
+      const [key, value] = line.split(LINE_SPLIT_OPERATOR);
 
-    finalCssObject[keyPart] = valuePart;
-  });
+      acc[key.trim()] = value.trim();
+
+      return acc;
+    }, {});
 
   return finalCssObject;
 }
